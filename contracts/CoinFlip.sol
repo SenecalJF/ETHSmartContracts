@@ -27,12 +27,15 @@ contract CoinFlip {
   }
 
   function setAmount(uint256 _amount) external {
-    require((players[0] == address(0) && players[1] == address(0)), 'Unable to change amount when a player is registered');
+    require(
+      (players[0] == address(0) && players[1] == address(0)),
+      'Unable to change amount when a player is registered'
+    );
     amount = _amount;
   }
 
   function register() external payable {
-    require(msg.value >= amount, 'Amount not sufficient ');
+    require(msg.value == amount, 'Amount not exact');
     if (!firstPlayerRegistered) {
       players[0] = msg.sender;
     }
