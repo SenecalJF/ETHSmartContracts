@@ -7,7 +7,6 @@ pragma solidity 0.8.9;
 contract CoinFlip {
   address[] private players = new address[](2);
   uint256 private amount;
-  bool private firstPlayerRegistered = false;
 
   constructor(uint256 _amount) {
     amount = _amount;
@@ -36,7 +35,7 @@ contract CoinFlip {
 
   function register() external payable {
     require(msg.value == amount, 'Amount not exact');
-    if (!firstPlayerRegistered) {
+    if (players[0] == address(0)) {
       players[0] = msg.sender;
     }
 
