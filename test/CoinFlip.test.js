@@ -24,4 +24,14 @@ contract('CoinFlip', (accounts) => {
     players = await instance.getPlayers();
     assert.equal(players[0], accounts[1]);
   });
+
+  it('should not register player 2 if amount is not exact', async () => {
+    let instance = await CoinFlip.deployed();
+    try {
+      await instance.register({ value: 5001, from: accounts[2] });
+      assert.fail('The transaction should have thrown an error');
+    } catch (err) {
+      assert.include(err.message, 'revert', "The error message should contain 'revert'");
+    }
+  });
 });
