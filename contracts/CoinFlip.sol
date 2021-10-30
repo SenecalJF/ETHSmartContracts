@@ -7,6 +7,7 @@ pragma solidity 0.8.9;
 contract CoinFlip {
   address[] private players = new address[](2);
   uint256 private amount;
+  address winner;
 
   constructor(uint256 _amount) {
     amount = _amount;
@@ -25,6 +26,10 @@ contract CoinFlip {
     return players;
   }
 
+  function getWinner() external view returns (address) {
+    return winner;
+  }
+
   function setAmount(uint256 _amount) external {
     require(
       (players[0] == address(0) && players[1] == address(0)),
@@ -35,20 +40,20 @@ contract CoinFlip {
 
   function register() external payable {
     require(msg.value == amount, 'Amount not exact');
+
     if (players[0] == address(0)) {
       players[0] = msg.sender;
-    }
-
-    if (players[0] != address(0) && players[1] != address(0)) {
+      winner = address(0);
+    } else if (players[1] == address(0)) {
+      players[1] = msg.sender;
       play();
       players = new address[](2);
     }
   }
 
-  function play() private returns (address) {
-    address winner = players[random()];
+  function play() private {
+    winner = players[random()];
     sendPrizeToWinner(winner);
-    return winner;
   }
 
   function sendPrizeToWinner(address _winner) private {
