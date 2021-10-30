@@ -75,6 +75,11 @@ module.exports = {
 
   // Set default mocha options here, use special reporters etc.
   mocha: {
+    reporter: 'eth-gas-reporter',
+    reporterOptions: {
+      coinmarketcap: '9551cc2e-adef-4ed9-8ac5-cec6c49c0010',
+      currency: 'CAD',
+    },
     // timeout: 100000
   },
 
