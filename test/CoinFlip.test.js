@@ -60,9 +60,10 @@ contract('CoinFlip', (accounts) => {
     let winner = await instance.getWinner();
     let winnerBalance = await web3.eth.getBalance(winner);
 
-    assert.equal(
-      winnerBalance - 5000,
-      web3.utils.toWei('100', 'ether') - gasUsed[accounts.indexOf(winner) - 1] * 2000000000
-    );
+    let gasMoney = web3.utils.toBN(gasUsed[accounts.indexOf(winner) - 1]).mul(web3.utils.toBN(2000000000));
+
+    let expectedBalance = web3.utils.toBN(web3.utils.toWei('100', 'ether')).add(web3.utils.toBN(5000)).sub(gasMoney);
+
+    assert.equal(winnerBalance.toString(), expectedBalance.toString());
   });
 });
