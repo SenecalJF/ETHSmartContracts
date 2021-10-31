@@ -7,7 +7,7 @@ pragma solidity 0.8.9;
 contract CoinFlip {
   address[] private players = new address[](2);
   uint256 private amount;
-  address winner;
+  address private winner;
 
   constructor(uint256 _amount) {
     amount = _amount;
@@ -47,13 +47,13 @@ contract CoinFlip {
     } else if (players[1] == address(0)) {
       players[1] = msg.sender;
       play();
+      sendPrizeToWinner(winner);
       players = new address[](2);
     }
   }
 
   function play() private {
     winner = players[random()];
-    sendPrizeToWinner(winner);
   }
 
   function sendPrizeToWinner(address _winner) private {
