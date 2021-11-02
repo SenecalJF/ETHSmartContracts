@@ -13,16 +13,24 @@ contract MetroTickets {
     _;
   }
 
-  constructor(uint256 _tickerCost) {
-    ticketCost = _tickerCost;
+  constructor(uint256 _ticketCost) {
+    ticketCost = _ticketCost;
     owner = msg.sender;
+  }
+
+  function getTicketCost() external view returns (uint256) {
+    return ticketCost;
+  }
+
+  function balanceOf(address _user) external view returns (uint256) {
+    return users[_user];
   }
 
   function buyTicket() external payable {
     users[msg.sender] += msg.value / ticketCost;
   }
 
-  function spendTicker(address _user) external ownerOnly {
+  function spendTicket(address _user) external ownerOnly {
     users[_user]--;
   }
 
