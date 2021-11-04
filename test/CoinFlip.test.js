@@ -10,7 +10,7 @@ contract('CoinFlip', (accounts) => {
   it('should change the amount', async () => {
     let instance = await CoinFlip.deployed();
     let amount = await instance.getAmount();
-    newRandomAmount = Math.floor(Math.random() * 10000) + 6000;
+    let newRandomAmount = Math.floor(Math.random() * 10000) + 6000;
     await instance.setAmount(newRandomAmount);
     let newAmount = await instance.getAmount();
     assert.notEqual(amount, newAmount);
