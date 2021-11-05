@@ -10,7 +10,7 @@ contract Housing {
     uint256 rent;
   }
 
-  event PaidRent(uint256 _leaseId, Lease _lease);
+  event PaidRent(uint256 indexed _leaseId, Lease _lease);
 
   modifier validId(uint256 _leaseId) {
     require(_leaseId < leases.length, 'Invalid lease ID');
