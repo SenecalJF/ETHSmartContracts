@@ -10,7 +10,9 @@ contract Housing {
     uint256 rent;
   }
 
-  event PaidRent(uint256 indexed _leaseId, Lease _lease);
+  event PaidRent(uint256 indexed _leaseId);
+
+  event LeaseCreated(address indexed _owner, uint256 _leaseId);
 
   modifier validId(uint256 _leaseId) {
     require(_leaseId < leases.length, 'Invalid lease ID');
@@ -21,7 +23,7 @@ contract Housing {
     require(msg.value == leases[_leaseId].rent);
     (bool success, ) = payable(leases[_leaseId].owner).call{value: leases[_leaseId].rent}('');
     require(success, 'Transfer failed.');
-    emit PaidRent(_leaseId, leases[_leaseId]);
+    emit PaidRent(_leaseId);
   }
 
   function rent(uint256 _leaseId) external view validId(_leaseId) returns (uint256) {
@@ -38,10 +40,11 @@ contract Housing {
 
   function newLease(
     address _owner,
-    string memory _leaseHash,
+    string calldata _leaseHash,
     uint256 _rent
-  ) external returns (uint256) {
+  ) external {
     leases.push(Lease(_owner, _leaseHash, _rent));
-    return (leases.length - 1);
+
+    emit LeaseCreated(msg.sender, leases.length - 1);
   }
 }

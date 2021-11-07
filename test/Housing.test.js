@@ -1,17 +1,16 @@
 const Housing = artifacts.require('Housing');
 
 contract('Housing', (accounts) => {
-  let id;
+  let id = '0';
 
   it('should create a new lease', async () => {
     let instance = await Housing.deployed();
-    id = await instance.newLease.call(accounts[1], 'TESTHASH', 5000);
     await instance.newLease(accounts[1], 'TESTHASH', 5000, { from: accounts[1] });
   });
 
   it('owner should be set correctly', async () => {
     let instance = await Housing.deployed();
-    let owner = await instance.owner('0');
+    let owner = await instance.owner(id);
     assert.equal(owner, accounts[1]);
   });
 
