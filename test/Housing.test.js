@@ -1,11 +1,15 @@
 const Housing = artifacts.require('Housing');
+const truffleAssert = require('truffle-assertions');
 
 contract('Housing', (accounts) => {
   let id = '0';
 
   it('should create a new lease', async () => {
     let instance = await Housing.deployed();
-    await instance.newLease(accounts[1], 'TESTHASH', 5000, { from: accounts[1] });
+    let result = await instance.newLease(accounts[1], 'TESTHASH', 5000, { from: accounts[1] });
+    truffleAssert.eventEmitted(result, 'LeaseCreated', (ev) => {
+      return ev.leaseId == 0;
+    });
   });
 
   it('owner should be set correctly', async () => {

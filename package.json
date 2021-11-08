@@ -12,5 +12,8 @@
     "hooks": {
       "pre-push": "npm run prettier"
     }
+  },
+  "dependencies": {
+    "truffle-assertions": "^0.9.2"
   }
 }

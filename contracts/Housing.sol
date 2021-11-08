@@ -10,9 +10,9 @@ contract Housing {
     uint256 rent;
   }
 
-  event PaidRent(uint256 indexed _leaseId);
+  event PaidRent(uint256 indexed leaseId);
 
-  event LeaseCreated(address indexed _owner, uint256 _leaseId);
+  event LeaseCreated(address indexed owner, uint256 leaseId);
 
   modifier validId(uint256 _leaseId) {
     require(_leaseId < leases.length, 'Invalid lease ID');
@@ -44,7 +44,6 @@ contract Housing {
     uint256 _rent
   ) external {
     leases.push(Lease(_owner, _leaseHash, _rent));
-
     emit LeaseCreated(msg.sender, leases.length - 1);
   }
 }
