@@ -2,12 +2,13 @@ const Housing = artifacts.require('Housing');
 const truffleAssert = require('truffle-assertions');
 
 contract('Housing', (accounts) => {
-  let id = '0';
+  let id;
 
   it('should create a new lease', async () => {
     let instance = await Housing.deployed();
     let result = await instance.newLease(accounts[1], 'TESTHASH', 5000, { from: accounts[1] });
     truffleAssert.eventEmitted(result, 'LeaseCreated', (ev) => {
+      id = ev.leaseId;
       return ev.leaseId == 0;
     });
   });
@@ -40,10 +41,13 @@ contract('Housing', (accounts) => {
     }
   });
 
-  it('rent should be paid correctly', async () => {
+  it('rent should be paid correctly and event should be triggered', async () => {
     let instance = await Housing.deployed();
     const balanceBefore = await web3.eth.getBalance(accounts[1]);
-    await instance.payRent(id, { value: 5000, from: accounts[2] });
+    let result = await instance.payRent(id, { value: 5000, from: accounts[2] });
+    truffleAssert.eventEmitted(result, 'PaidRent', (ev) => {
+      return ev.leaseId.toString() == id.toString();
+    });
     const balanceAfter = await web3.eth.getBalance(accounts[1]);
     const expectedBalance = web3.utils.toBN(balanceBefore).add(web3.utils.toBN('5000'));
     assert.deepEqual(expectedBalance.toString(), balanceAfter.toString());
