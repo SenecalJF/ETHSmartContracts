@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity ^0.8.9;
 
 //Goal : Participating in a lottery game with multiple players.
 //       At the end of each week, a lucky winner gets to take
@@ -8,6 +8,7 @@ pragma solidity 0.8.9;
 contract Lottery {
   uint256 public amount;
   address public owner;
+  address public winner;
   bool public isLotteryLive;
   address[] public lotteryPlayer;
   uint256 public nb_entry;
@@ -55,10 +56,9 @@ contract Lottery {
   //launch the lottery
   function launchLottery() public ownerOnly {
     require(getNbOfentries() > 1, 'Not enough players to launch');
-    isLotteryLive = true;
     uint256 index = randomWinner() % lotteryPlayer.length;
 
-    address winner = lotteryPlayer[index];
+    winner = lotteryPlayer[index];
     payWinner(winner);
   }
 
