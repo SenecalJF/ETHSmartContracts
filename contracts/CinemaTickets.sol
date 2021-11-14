@@ -27,7 +27,7 @@ contract CinemaTickets {
     emit paidTickets(msg.sender, _nbOfTickets);
   }
 
-  function getNbTicketsOnWallet(address _sender) external view returns (uint256) {
+  function balanceOf(address _sender) external view returns (uint256) {
     return user[_sender];
   }
 
@@ -35,11 +35,11 @@ contract CinemaTickets {
     return ticketCost;
   }
 
-  function changeTicketsCost(uint256 _ticketCost) external ownerOnly {
+  function changeTicketCost(uint256 _ticketCost) external ownerOnly {
     ticketCost = _ticketCost;
   }
 
-  function sprendTickets(uint256 _nbOfTicketsSpent) external {
+  function spendTickets(uint256 _nbOfTicketsSpent) external {
     require(user[msg.sender] >= _nbOfTicketsSpent, 'User need to buy tickets first');
     user[msg.sender] -= _nbOfTicketsSpent;
   }
