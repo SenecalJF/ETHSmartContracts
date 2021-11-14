@@ -11,7 +11,7 @@ contract('Lottery', (accounts) => {
     let instance = await Lottery.deployed();
     let owner = await instance.owner();
 
-    assert.equal(owner, '0x627306090abaB3A6e1400e9345bC60c78a8BEf57');
+    assert.equal(owner, accounts[0]);
   });
 
   it('should register a player', async () => {
