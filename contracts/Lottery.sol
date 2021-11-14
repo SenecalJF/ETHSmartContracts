@@ -19,7 +19,8 @@ contract Lottery {
   }
 
   modifier ownerOnly() {
-    if (msg.sender == owner) _;
+    require(msg.sender == owner);
+    _;
   }
 
   //generate a ramdom number

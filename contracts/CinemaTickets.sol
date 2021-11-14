@@ -15,7 +15,8 @@ contract CinemaTickets {
   }
 
   modifier ownerOnly() {
-    if (msg.sender == owner) _;
+    require(msg.sender == owner);
+    _;
   }
 
   function payTickets(uint256 _nbOfTickets) external payable {
