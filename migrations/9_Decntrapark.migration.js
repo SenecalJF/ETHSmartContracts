@@ -1,5 +1,5 @@
-const CinemaTickets = artifacts.require('CinemaTickets');
+const Decentrapark = artifacts.require('Decentrapark');
 
 module.exports = function (deployer, network, accounts) {
-  deployer.deploy(CinemaTickets, 15);
+  deployer.deploy(Decentrapark, 15);
 };
